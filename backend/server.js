@@ -3,33 +3,33 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const submissionRoutes = require("./routes/submissionRoutes");
+
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Test route
+app.use("/api/submissions", submissionRoutes);
+
 app.get("/", (req, res) => {
   res.json({
     message: "ScanOS Intake Queue API is running",
   });
 });
 
-// Submission routes
-const submissionRoutes = require("./routes/submissionRoutes");
-app.use("/api/submissions", submissionRoutes);
+const PORT = process.env.PORT || 5000;
 
-// MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB connected successfully");
 
-    app.listen(5000, () => {
-      console.log("Server running on http://localhost:5000");
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((error) => {
     console.error("MongoDB connection failed:", error);
+    process.exit(1);
   });
