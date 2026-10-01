@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const API_URL = "http://localhost:5000/api/submissions";
+const API_URL = "https://scanos-intake-queue.onrender.com/api/submissions";
 
 const statusConfig = {
   new: {
